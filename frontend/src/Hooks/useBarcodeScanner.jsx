@@ -23,10 +23,8 @@ export function useBarcodeScanner() {
       window.location.hostname === "127.0.0.1";
 
     const wsUrl = isDevelopment
-      ? "ws://localhost:2018" // Your WebSocket server port
-      : `${window.location.protocol === "https:" ? "wss:" : "ws:"}://${
-          window.location.host
-        }`;
+      ? "ws://localhost:2018" // Local development
+      : "wss://ip-rings.onrender.com"; // Production Render URL
 
     console.log("Connecting to WebSocket:", wsUrl);
     console.log("Reconnect attempt:", reconnectAttemptsRef.current);
@@ -48,7 +46,7 @@ export function useBarcodeScanner() {
         console.log("✓ WebSocket connected");
         setIsConnected(true);
         setError(null);
-        reconnectAttemptsRef.current = 0; // Reset reconnect attempts on successful connection
+        reconnectAttemptsRef.current = 0;
       };
 
       ws.onmessage = (event) => {

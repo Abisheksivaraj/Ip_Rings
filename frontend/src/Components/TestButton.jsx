@@ -11,7 +11,13 @@ function TestButton() {
     try {
       const testBarcode = "TEST" + Date.now();
 
-      const response = await fetch("/scan", {
+      // Use Render URL for API calls
+      const apiUrl =
+        window.location.hostname === "localhost"
+          ? "http://localhost:2018"
+          : "https://ip-rings.onrender.com";
+
+      const response = await fetch(`${apiUrl}/api/test-scan`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,14 +29,7 @@ function TestButton() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const text = await response.text();
-
-      // Check if response is empty
-      if (!text) {
-        throw new Error("Empty response from server");
-      }
-
-      const data = JSON.parse(text);
+      const data = await response.json();
       console.log("Test scan result:", data);
       setMessage("✓ Test successful! Check the barcode list below.");
 

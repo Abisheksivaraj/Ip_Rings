@@ -13,6 +13,7 @@ const PORT = process.env.PORT || 2018;
 
 // CORS configuration - MUST be before middleware
 const allowedOrigins = [
+  "*",
   "http://localhost:5174",
   "http://localhost:3000",
   "https://your-frontend-url.onrender.com",
