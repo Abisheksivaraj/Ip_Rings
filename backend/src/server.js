@@ -16,7 +16,7 @@ const allowedOrigins = [
   "*",
   "http://localhost:5174",
   "http://localhost:3000",
-  "https://your-frontend-url.onrender.com",
+  "https://ip-rings-1.onrender.com",
 ];
 
 app.use(
