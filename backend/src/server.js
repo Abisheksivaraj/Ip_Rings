@@ -112,19 +112,14 @@ app.post("/scan", (req, res) => {
 
   // Handle different content types from scanner
   if (typeof req.body === "string") {
-    // Plain text from scanner
     barcode = req.body.trim();
   } else if (req.body.barcode) {
-    // JSON format: {"barcode": "123456"}
     barcode = req.body.barcode.trim();
   } else if (req.body.data) {
-    // Alternative JSON format: {"data": "123456"}
     barcode = req.body.data.trim();
   } else if (Buffer.isBuffer(req.body)) {
-    // Binary data
     barcode = req.body.toString().trim();
   } else {
-    // Fallback - stringify the object
     barcode = JSON.stringify(req.body);
   }
 
@@ -177,9 +172,9 @@ if (process.env.NODE_ENV === "production") {
   // Serve static files from the frontend build
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-  // FIXED: Express 5.x compatible catch-all route
-  // Use a more specific pattern instead of "*"
-  app.get("/*", (req, res) => {
+  // Handle React routing - return index.html for all other routes
+  // This works with Express 4.x
+  app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
   });
 }
